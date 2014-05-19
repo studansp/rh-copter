@@ -1,6 +1,6 @@
 RH Copter
 
-The goal of this project is to create a fully autonomous quadcopter using the Beaglebone black.  I'm hoping that putting the code available publicly will lead to someone finding some in in a code sample or two.  If you have any questions, feel free to contact me: pstudans at gmail.com.
+The goal of this project is to create a fully autonomous quadcopter using the Beaglebone black.  I'm hoping that putting the code available publicly will lead to someone finding some use out of my code samples.  If you have any questions, feel free to contact me: pstudans at gmail.com.
 
 I'm just now getting things set up, but I hope to improve as I go...
 
