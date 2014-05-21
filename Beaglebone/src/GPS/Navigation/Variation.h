@@ -1,4 +1,6 @@
-#pragma once
+#ifndef VARIATION_H_
+#define VARIATION_H_
+
 #include "DirectionContainer.h"
 #include <string>
 
@@ -12,3 +14,5 @@ private:
 	float _degrees;
 	DirectionContainer* _direction;
 };
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef LATLONG_H_
+#define LATLONG_H_
+
 #include "DirectionContainer.h"
 #include <string>
 
@@ -12,3 +14,5 @@ private:
 	float _min;
 	DirectionContainer* _direction;
 };
+
+#endif

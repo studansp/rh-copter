@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DIRECTIONCONTAINER_H_
+#define DIRECTIONCONTAINER_H_
 
 #include <string>
 #include "Direction.h"
@@ -12,3 +13,5 @@ public:
 private:
 	Direction _direction;
 };
+
+#endif

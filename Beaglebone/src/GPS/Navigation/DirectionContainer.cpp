@@ -1,4 +1,6 @@
 #include "DirectionContainer.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 DirectionContainer::DirectionContainer(std::string input)
 {

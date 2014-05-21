@@ -8,8 +8,13 @@
 #include "AbstractGPS.h"
 #include <stdlib.h>
 
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
+
 AbstractGPS::AbstractGPS() {
 	_gprmc = NULL;
+	_gpgga = NULL;
 }
 
 AbstractGPS::~AbstractGPS() {
@@ -17,12 +22,14 @@ AbstractGPS::~AbstractGPS() {
 	{
 		delete _gprmc;
 	}
+	if(_gpgga!=NULL)
+	{
+		delete _gpgga;
+	}
 }
 
 bool AbstractGPS::IsValid()
 {
-	if(_gprmc==NULL)
-		return false;
-
-	return _gprmc->IsValid();
+	return (_gprmc!=NULL && _gprmc->IsValid())
+			|| (_gpgga!=NULL && _gpgga->IsValid());
 }

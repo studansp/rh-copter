@@ -7,26 +7,26 @@
 
 #include "SainSmartNEO6MGPS.h"
 #include <iostream>
-#include <stdio.h>
-#include <linux/i2c.h>
-#include <linux/i2c-dev.h>
-#include <sys/ioctl.h>
-#include <sys/fcntl.h>
-#include <stropts.h>
-#include <math.h>
-#include <unistd.h>
-#include <boost/algorithm/string/predicate.hpp>
-
+#include <boost/algorithm/string.hpp>
+#include "GPRMC/SainSmartNEO6MGPSGPRMC.h"
+#include "GPGGA/SainSmartNEO6MGPSGPGGA.h"
 using namespace std;
 
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
+
 SainSmartNEO6MGPS::SainSmartNEO6MGPS(string namebuf, char address)
+: AbstractI2CDevice(namebuf, address)
 {
-	_namebuf = namebuf;
-	_address = address;
+	_gprmc = new SainSmartNEO6MGPSGPRMC();
+	_gpgga = new SainSmartNEO6MGPSGPGGA();
 }
 
 void SainSmartNEO6MGPS::ReadData()
 {
+	bool foundMc=false, foundGa=false;
+
 	for(int i=0;i<20;i++) //Try 20 reads
 	{	//TODO Figure out how to actually interface with the device...
 		std::string read = getNextString();
@@ -35,16 +35,20 @@ void SainSmartNEO6MGPS::ReadData()
 
 		if (boost::starts_with(read, "$GPRMC"))
 		{
-			if(_gprmc!=NULL)
-			{
-				_gprmc->Refresh(read);
-			}
-			else
-			{
-				_gprmc = new GPRMC(read);
-			}
+			_gprmc->Refresh(read);
+			foundMc=true;
 			break;
 		}
+
+		else if (boost::starts_with(read, "$GPGGA"))
+		{
+			_gprmc->Refresh(read);
+			foundGa=true;
+			break;
+		}
+
+		if(foundMc&&foundGa)
+			break;
 	}
 }
 
@@ -54,55 +58,53 @@ SainSmartNEO6MGPS::~SainSmartNEO6MGPS()
 
 std::string SainSmartNEO6MGPS::getNextString()
 {
-	int file;
-
-	if((file = open(_namebuf.c_str(), O_RDWR)) < 0)
-	{
-		cout << "Failed to open file";
-		return "";
-	}
-
-	if(ioctl(file, I2C_SLAVE, 0x42) < 0)
-	{
-		cout << "Unable to open IO";
-		return "";
-	}
-
-	char readChar[1];
 	string returnString = "";
-	int bytesRead;
 
-	for(int i=0;i<=1024;i++)
+	if(InitRead())
 	{
-		bytesRead = read(file, readChar, 1);
+		//Per datasheet, write to initiate transfer
+		char initBuf[1];
+		initBuf[0] = 0xFF;
 
-		if(readChar[0]=='$') //Start of sequence
+		Write(initBuf, 1);
+
+		char readChar[1];
+
+		for(int i=0;i<=1024;i++)
 		{
-			returnString+='$';
+			Read(readChar, 1);
 
-			while(true)
+			if(readChar[0]=='$') //Start of sequence
 			{
-				bytesRead = read(file, readChar, 1);
+				returnString+='$';
 
-				if(readChar[0]!='$')
+
+				for(int k=0;k<100;k++) //NMEA should not be greater than 80
 				{
-					returnString += readChar;
+					Read(readChar, 1);
+
+					if(readChar[0]!='$')
+					{
+						returnString += readChar;
+					}
+					else
+					{
+						break;
+					}
 				}
-				else
-				{
-					break;
-				}
+
+				break;
 			}
-			break;
+
+			if(i==1024)
+			{	//If we haven't found anything by this point, something is wrong
+				break;
+			}
 		}
 
-		if(i==1024)
-		{	//If we haven't found anything by this point, something is wrong
-			return "";
-		}
+
+		EndRead();
 	}
-
-	close(file);
 
 	return returnString;
 }

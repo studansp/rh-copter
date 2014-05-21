@@ -1,9 +1,22 @@
-#include "GPRMC.h"
-#include <boost/algorithm/string.hpp>
-#include <vector>
-#include <cstdlib>
+/*
+ * SainSmartNEO6MGPSGPRMC.cpp
+ *
+ *  Created on: May 20, 2014
+ *      Author: phillip
+ */
 
-void GPRMC::Refresh(std::string input)
+#include "SainSmartNEO6MGPSGPRMC.h"
+#include <vector>
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+
+SainSmartNEO6MGPSGPRMC::SainSmartNEO6MGPSGPRMC() {
+}
+
+SainSmartNEO6MGPSGPRMC::~SainSmartNEO6MGPSGPRMC() {
+}
+
+void SainSmartNEO6MGPSGPRMC::Refresh(std::string input)
 {
 	std::vector<std::string> strs;
 
@@ -12,13 +25,13 @@ void GPRMC::Refresh(std::string input)
 	if(strs[0]!="$GPRMC" || strs.size()!=14 )
 	{
 		std::cerr << "Invalid $GPRMC string: " << input << " Length:" << strs.size();
-		_validity = false;
+		this->_validity = false;
 	}
 	else
 	{
 		if(strs[2]=="A") //Valid
 		{
-			_validity = true;
+			this->_validity = true;
 
 			this->deleteObjects();
 
@@ -33,35 +46,7 @@ void GPRMC::Refresh(std::string input)
 		}
 		else
 		{
-			_validity = false;
+			this->_validity = false;
 		}
 	}
-}
-
-GPRMC::GPRMC(std::string input)
-{
-	_latitude=NULL;
-	_longitude=NULL;
-	_variation=NULL;
-	Refresh(input);
-}
-
-GPRMC::~GPRMC()
-{
-	this->deleteObjects();
-}
-
-void GPRMC::deleteObjects()
-{
-	if(_latitude!=NULL)
-		delete(_latitude);
-	if(_longitude!=NULL)
-		delete(_longitude);
-	if(_variation!=NULL)
-		delete(_variation);
-}
-
-bool GPRMC::IsValid()
-{
-	return _validity;
 }

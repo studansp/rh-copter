@@ -8,21 +8,19 @@
 #ifndef SAINSMARTNEO6MGPS_H_
 #define SAINSMARTNEO6MGPS_H_
 #include <string>
-#include "GPRMC.h"
 #include "AbstractGPS.h"
+#include "../Shared/AbstractI2CDevice.h"
 
-class SainSmartNEO6MGPS : public AbstractGPS {
+class SainSmartNEO6MGPS : public AbstractGPS, public AbstractI2CDevice {
 public:
 	SainSmartNEO6MGPS(std::string namebuf, char address);
-	~SainSmartNEO6MGPS();
+	virtual ~SainSmartNEO6MGPS();
 	virtual void ReadData();
 
 
 private:
 	void openFile();
 	std::string getNextString();
-	std::string _namebuf;
-	char _address;
 };
 
 #endif

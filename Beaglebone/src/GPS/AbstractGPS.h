@@ -7,7 +7,8 @@
 
 #ifndef ABSTRACTGPS_H_
 #define ABSTRACTGPS_H_
-#include "GPRMC.h"
+#include "GPRMC/GPRMC.h"
+#include "GPGGA/GPGGA.h"
 
 class AbstractGPS {
 public:
@@ -17,6 +18,7 @@ public:
 	bool IsValid();
 protected:
 	GPRMC* _gprmc;
+	GPGGA* _gpgga;
 };
 
 #endif /* ABSTRACTGPS_H_ */
