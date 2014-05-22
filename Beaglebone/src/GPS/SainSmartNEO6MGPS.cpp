@@ -16,39 +16,27 @@ using namespace std;
 #define NULL ((void *)0)
 #endif
 
+#define GPGGA_ATTEMPTS 50
+#define MAXCOUNT 5000
+
 SainSmartNEO6MGPS::SainSmartNEO6MGPS(string namebuf, char address)
 : AbstractI2CDevice(namebuf, address)
 {
-	_gprmc = new SainSmartNEO6MGPSGPRMC();
 	_gpgga = new SainSmartNEO6MGPSGPGGA();
 }
 
 void SainSmartNEO6MGPS::ReadData()
 {
-	bool foundMc=false, foundGa=false;
-
-	for(int i=0;i<20;i++) //Try 20 reads
-	{	//TODO Figure out how to actually interface with the device...
+	for(int i=0;i<GPGGA_ATTEMPTS;i++)
+	{
 		std::string read = getNextString();
 
-		cout << "{" << read << "}" << endl;
-
-		if (boost::starts_with(read, "$GPRMC"))
+		if (boost::starts_with(read, "$GPGGA"))
 		{
-			_gprmc->Refresh(read);
-			foundMc=true;
+			cout << "FOUND GPGGA {" << read << "}" << endl;
+			_gpgga->Refresh(read);
 			break;
 		}
-
-		else if (boost::starts_with(read, "$GPGGA"))
-		{
-			_gprmc->Refresh(read);
-			foundGa=true;
-			break;
-		}
-
-		if(foundMc&&foundGa)
-			break;
 	}
 }
 
@@ -56,47 +44,42 @@ SainSmartNEO6MGPS::~SainSmartNEO6MGPS()
 {
 }
 
+//Get the next message from the GPS
+//Basically it will throw valid data or 0xFF until it is ready
+//Not sure exactly how often this is, but the following seems to produce
+//without attempting too many potentially faulty reads
+
 std::string SainSmartNEO6MGPS::getNextString()
 {
 	string returnString = "";
 
 	if(InitRead())
 	{
-		//Per datasheet, write to initiate transfer
-		char initBuf[1];
-		initBuf[0] = 0xFF;
-
-		Write(initBuf, 1);
-
 		char readChar[1];
+		bool inSequence = false;
 
-		for(int i=0;i<=1024;i++)
+		for(int i=0;i<=MAXCOUNT;i++)
 		{
 			Read(readChar, 1);
 
-			if(readChar[0]=='$') //Start of sequence
+			if(inSequence)
 			{
-				returnString+='$';
-
-
-				for(int k=0;k<100;k++) //NMEA should not be greater than 80
+				if(readChar[0]=='$')
 				{
-					Read(readChar, 1);
-
-					if(readChar[0]!='$')
-					{
-						returnString += readChar;
-					}
-					else
-					{
-						break;
-					}
+					break;
 				}
-
-				break;
+				else if(readChar[0]!=0xFF)
+				{
+					returnString += readChar[0];
+				}
+			}
+			else if(readChar[0]=='$') //Start of sequence
+			{
+				inSequence = true;
+				returnString="$";
 			}
 
-			if(i==1024)
+			if(i==MAXCOUNT)
 			{	//If we haven't found anything by this point, something is wrong
 				break;
 			}

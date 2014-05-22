@@ -7,7 +7,6 @@
 
 #ifndef ABSTRACTGPS_H_
 #define ABSTRACTGPS_H_
-#include "GPRMC/GPRMC.h"
 #include "GPGGA/GPGGA.h"
 
 class AbstractGPS {
@@ -17,7 +16,6 @@ public:
 	virtual void ReadData()=0;
 	bool IsValid();
 protected:
-	GPRMC* _gprmc;
 	GPGGA* _gpgga;
 };
 

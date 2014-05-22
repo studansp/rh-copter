@@ -24,6 +24,27 @@ AbstractI2CDevice::AbstractI2CDevice(std::string namebuf, char address)
 AbstractI2CDevice::~AbstractI2CDevice() {
 }
 
+char AbstractI2CDevice::Read(char reg)
+{
+	char buf[2];
+
+	buf[0] =reg;
+
+	read(_file, buf, 2);
+
+	return buf[1];
+}
+
+bool AbstractI2CDevice::Write(char reg, char data)
+{
+	char buf[2];
+
+	buf[0] =reg;
+	buf[1] =data;
+
+	return write(_file, buf, 2)==2;
+}
+
 bool AbstractI2CDevice::Write(void* buf, std::size_t size)
 {
 	return write(_file, buf, size)!=-1;

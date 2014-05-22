@@ -17,6 +17,8 @@ public:
 	bool InitRead();
 	bool Read(void* buf, std::size_t size);
 	bool Write(void* buf, std::size_t size);
+	bool Write(char reg, char data);
+	char Read(char reg);
 protected:
 	std::string _namebuf;
 	char _address;

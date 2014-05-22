@@ -8,6 +8,7 @@
 #include "Validatable.h"
 
 Validatable::Validatable() {
+	_validity = false;
 }
 
 Validatable::~Validatable() {

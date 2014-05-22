@@ -13,15 +13,10 @@
 #endif
 
 AbstractGPS::AbstractGPS() {
-	_gprmc = NULL;
 	_gpgga = NULL;
 }
 
 AbstractGPS::~AbstractGPS() {
-	if(_gprmc!=NULL)
-	{
-		delete _gprmc;
-	}
 	if(_gpgga!=NULL)
 	{
 		delete _gpgga;
@@ -30,6 +25,5 @@ AbstractGPS::~AbstractGPS() {
 
 bool AbstractGPS::IsValid()
 {
-	return (_gprmc!=NULL && _gprmc->IsValid())
-			|| (_gpgga!=NULL && _gpgga->IsValid());
+	return _gpgga!=NULL && _gpgga->IsValid();
 }
