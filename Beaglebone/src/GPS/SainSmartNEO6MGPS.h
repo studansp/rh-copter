@@ -15,8 +15,7 @@ class SainSmartNEO6MGPS : public AbstractGPS, public AbstractI2CDevice {
 public:
 	SainSmartNEO6MGPS(std::string namebuf, char address);
 	virtual ~SainSmartNEO6MGPS();
-	virtual void ReadData();
-
+	virtual void Refresh(std::string input);
 
 private:
 	void openFile();

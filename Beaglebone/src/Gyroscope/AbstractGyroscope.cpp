@@ -12,4 +12,3 @@ AbstractGyroscope::AbstractGyroscope() {
 
 AbstractGyroscope::~AbstractGyroscope() {
 }
-

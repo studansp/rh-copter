@@ -8,6 +8,7 @@
 #include "GPGGA.h"
 #include <cstdlib>
 
+//Init members
 GPGGA::GPGGA() {
 	_validity = false;
 	_latitude = NULL;
@@ -18,6 +19,7 @@ GPGGA::~GPGGA() {
 	this->deleteObjects();
 }
 
+//Cleans up pointers
 void GPGGA::deleteObjects()
 {
 	if(_latitude!=NULL)

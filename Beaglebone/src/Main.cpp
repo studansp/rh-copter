@@ -15,12 +15,12 @@ using namespace std;
 int main()
 {
 	SainSmartNEO6MGPS gps("/dev/i2c-1",0x42);
-	gps.ReadData();
+	gps.Refresh("");
 
 	cout << "Is GPS Valid?: " << gps.IsValid() << endl;
 
 	ADXL345Accelerometer accel("/dev/i2c-1",0x53);
-	accel.ReadData();
+	accel.Refresh("");
 
 	cout << "Is accelerometer Valid?: " << accel.IsValid() << endl;
 
@@ -30,7 +30,7 @@ int main()
 
 	L3G4200DGyroscope gyro("/dev/i2c-1",0x69);
 
-	gyro.ReadData();
+	gyro.Refresh("");
 
 
 	cout << "Is gyroscope Valid? " << gyro.IsValid() << endl;

@@ -2,6 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+DirectionContainer::~DirectionContainer(void)
+{
+}
+
+
+Direction DirectionContainer::GetDirection()
+{
+	return _direction;
+}
+
+//Initialize direction from string value
 DirectionContainer::DirectionContainer(std::string input)
 {
 	if(input.length()==0)
@@ -30,15 +41,4 @@ DirectionContainer::DirectionContainer(std::string input)
 				_direction = DEFAULT;
 		}
 	}
-}
-
-
-DirectionContainer::~DirectionContainer(void)
-{
-}
-
-
-Direction DirectionContainer::GetDirection()
-{
-	return _direction;
 }

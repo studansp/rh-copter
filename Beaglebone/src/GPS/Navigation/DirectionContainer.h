@@ -4,6 +4,7 @@
 #include <string>
 #include "Direction.h"
 
+//Class to hold and process Direction information
 class DirectionContainer
 {
 public:

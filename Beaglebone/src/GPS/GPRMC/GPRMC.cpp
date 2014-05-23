@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdlib>
 
+//Init members
 GPRMC::GPRMC()
 {
 	_latitude=NULL;
@@ -16,6 +17,7 @@ GPRMC::~GPRMC()
 	this->deleteObjects();
 }
 
+//Cleans up pointers
 void GPRMC::deleteObjects()
 {
 	if(_latitude!=NULL)

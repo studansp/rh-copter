@@ -7,8 +7,16 @@
 
 #include "Validatable.h"
 
+void Validatable::FatalError(std::string error)
+{
+	_notFatalErrored = false;
+
+	std::cerr << "Validatable Fatal Error: " << error << std::endl;
+}
+
 Validatable::Validatable() {
 	_validity = false;
+	_notFatalErrored = true;
 }
 
 Validatable::~Validatable() {
@@ -16,5 +24,5 @@ Validatable::~Validatable() {
 
 bool Validatable::IsValid()
 {
-	return _validity;
+	return _notFatalErrored && _validity;
 }

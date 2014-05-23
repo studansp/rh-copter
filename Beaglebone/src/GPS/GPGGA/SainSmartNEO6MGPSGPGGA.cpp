@@ -11,6 +11,13 @@
 #include "../Navigation/LatLong.h"
 #include <vector>
 
+SainSmartNEO6MGPSGPGGA::SainSmartNEO6MGPSGPGGA() {
+}
+
+SainSmartNEO6MGPSGPGGA::~SainSmartNEO6MGPSGPGGA() {}
+
+//Refresh GPGGA data from input string
+//For more information, Google NMEA strings
 void SainSmartNEO6MGPSGPGGA::Refresh(std::string input)
 {
 	std::vector<std::string> strs;
@@ -45,9 +52,4 @@ void SainSmartNEO6MGPSGPGGA::Refresh(std::string input)
 		}
 	}
 }
-
-SainSmartNEO6MGPSGPGGA::SainSmartNEO6MGPSGPGGA() {
-}
-
-SainSmartNEO6MGPSGPGGA::~SainSmartNEO6MGPSGPGGA() {}
 

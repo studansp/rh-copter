@@ -9,12 +9,11 @@
 #define GPGGA_H_
 
 #include <string>
-#include "../../Shared/Validatable.h"
 #include "../../Shared/Refreshable.h"
 #include "../Navigation/LatLong.h"
 
 
-class GPGGA : public Validatable, public Refreshable{
+class GPGGA : public Refreshable{
 public:
 	GPGGA();
 	virtual ~GPGGA();

@@ -8,12 +8,12 @@
 #ifndef ABSTRACTGPS_H_
 #define ABSTRACTGPS_H_
 #include "GPGGA/GPGGA.h"
+#include "../Shared/Refreshable.h"
 
-class AbstractGPS {
+class AbstractGPS : public Refreshable {
 public:
 	AbstractGPS();
 	virtual ~AbstractGPS();
-	virtual void ReadData()=0;
 	bool IsValid();
 protected:
 	GPGGA* _gpgga;

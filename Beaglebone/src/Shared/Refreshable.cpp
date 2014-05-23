@@ -7,12 +7,7 @@
 
 #include "Refreshable.h"
 
-Refreshable::Refreshable() {
-	// TODO Auto-generated constructor stub
+Refreshable::Refreshable() {}
 
-}
-
-Refreshable::~Refreshable() {
-	// TODO Auto-generated destructor stub
-}
+Refreshable::~Refreshable() {}
 

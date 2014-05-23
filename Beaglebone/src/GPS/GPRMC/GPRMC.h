@@ -8,7 +8,7 @@
 #include "../../Shared/Validatable.h"
 #include "../../Shared/Refreshable.h"
 
-class GPRMC : public Validatable, public Refreshable
+class GPRMC : public Refreshable
 {
 public:
 	GPRMC();

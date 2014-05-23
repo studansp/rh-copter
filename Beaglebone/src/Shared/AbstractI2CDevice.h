@@ -21,12 +21,17 @@ class AbstractI2CDevice {
 public:
 	AbstractI2CDevice(std::string namebuf, char address);
 	virtual ~AbstractI2CDevice();
-	void EndRead();
-	bool InitRead();
-	bool Read(void* buf, std::size_t size);
-	bool Write(void* buf, std::size_t size);
+
+	bool InitReadWrite();
+	void EndReadWrite();
+
+	bool Read(void* buf, int size);
+	bool Read(char reg, char* inChar);
+
+	bool Write(void* buf, int size);
 	bool Write(char reg, char data);
-	char Read(char reg);
+
+
 	int GetTwosCompliment16(int data);
 protected:
 	std::string _namebuf;

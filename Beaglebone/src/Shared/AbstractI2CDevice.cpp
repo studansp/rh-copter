@@ -7,6 +7,7 @@
 
 #include "AbstractI2CDevice.h"
 
+//Return two's compliment from raw 16 bit data
 int AbstractI2CDevice::GetTwosCompliment16(int data)
 {
 	if(data & (1 << 15))
@@ -14,29 +15,28 @@ int AbstractI2CDevice::GetTwosCompliment16(int data)
 	return data & 65535;
 }
 
+//Init default values
 AbstractI2CDevice::AbstractI2CDevice(std::string namebuf, char address)
 {
 	_namebuf = namebuf;
 	_address = address;
+	_file=0;
 }
 
-AbstractI2CDevice::~AbstractI2CDevice() {
-}
+AbstractI2CDevice::~AbstractI2CDevice() { }
 
-char AbstractI2CDevice::Read(char reg)
+//Read a single character at a register
+bool AbstractI2CDevice::Read(char reg, char* inChar)
 {
 	char wrBuf[1];
 	wrBuf[0]=reg;
 
 	write(_file, wrBuf, 1);
 
-	char buf[1];
-
-	read(_file, buf, 1);
-
-	return buf[0];
+	return read(_file, inChar, 1)==1;
 }
 
+//Write a single character to a given register
 bool AbstractI2CDevice::Write(char reg, char data)
 {
 	char buf[2];
@@ -47,22 +47,26 @@ bool AbstractI2CDevice::Write(char reg, char data)
 	return write(_file, buf, 2)==2;
 }
 
-bool AbstractI2CDevice::Write(void* buf, std::size_t size)
+//Write a series of characters
+bool AbstractI2CDevice::Write(void* buf, int size)
 {
-	return write(_file, buf, size)!=-1;
+	return write(_file, buf, size)==size;
 }
 
-bool AbstractI2CDevice::Read(void* buf, std::size_t size)
+//Read a single character
+bool AbstractI2CDevice::Read(void* buf, int size)
 {
-	return read(_file, buf, size)!=-1;
+	return read(_file, buf, size)==size;
 }
 
-void AbstractI2CDevice::EndRead()
+//Called when finished with I2C communication
+void AbstractI2CDevice::EndReadWrite()
 {
 	close(_file);
 }
 
-bool AbstractI2CDevice::InitRead()
+//Called to initiate I2C communication
+bool AbstractI2CDevice::InitReadWrite()
 {
 	if((_file = open(_namebuf.c_str(), O_RDWR)) < 0)
 	{

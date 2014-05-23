@@ -16,6 +16,8 @@ SainSmartNEO6MGPSGPRMC::SainSmartNEO6MGPSGPRMC() {
 SainSmartNEO6MGPSGPRMC::~SainSmartNEO6MGPSGPRMC() {
 }
 
+//Refresh GPRMC based on input string
+//For more information, Google NMEA strings
 void SainSmartNEO6MGPSGPRMC::Refresh(std::string input)
 {
 	std::vector<std::string> strs;

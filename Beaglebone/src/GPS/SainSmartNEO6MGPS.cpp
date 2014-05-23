@@ -25,16 +25,19 @@ SainSmartNEO6MGPS::SainSmartNEO6MGPS(string namebuf, char address)
 	_gpgga = new SainSmartNEO6MGPSGPGGA();
 }
 
-void SainSmartNEO6MGPS::ReadData()
+void SainSmartNEO6MGPS::Refresh(std::string input)
 {
+	//The GPS is going to throw back a number of strings
+	//We will throw them away until we get the string we want
 	for(int i=0;i<GPGGA_ATTEMPTS;i++)
 	{
 		std::string read = getNextString();
 
 		if (boost::starts_with(read, "$GPGGA"))
 		{
-			cout << "FOUND GPGGA {" << read << "}" << endl;
 			_gpgga->Refresh(read);
+			_validity = _gpgga->IsValid();
+
 			break;
 		}
 	}
@@ -53,7 +56,7 @@ std::string SainSmartNEO6MGPS::getNextString()
 {
 	string returnString = "";
 
-	if(InitRead())
+	if(InitReadWrite())
 	{
 		char readChar[1];
 		bool inSequence = false;
@@ -86,7 +89,7 @@ std::string SainSmartNEO6MGPS::getNextString()
 		}
 
 
-		EndRead();
+		EndReadWrite();
 	}
 
 	return returnString;

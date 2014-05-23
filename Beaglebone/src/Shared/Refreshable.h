@@ -8,8 +8,9 @@
 #ifndef REFRESHABLE_H_
 #define REFRESHABLE_H_
 #include <string>
+#include "Validatable.h"
 
-class Refreshable {
+class Refreshable : public Validatable{
 public:
 	Refreshable();
 	virtual ~Refreshable();

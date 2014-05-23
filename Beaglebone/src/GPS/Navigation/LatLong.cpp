@@ -2,6 +2,8 @@
 #include <vector>
 #include <boost/algorithm/string.hpp>
 
+//Init lat/long from string data
+//Google NMEA strings for more information
 LatLong::LatLong(std::string data, std::string direction)
 {
 	_direction = new DirectionContainer(direction);
