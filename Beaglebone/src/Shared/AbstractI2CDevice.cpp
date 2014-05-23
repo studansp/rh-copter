@@ -6,14 +6,13 @@
  */
 
 #include "AbstractI2CDevice.h"
-#include <linux/i2c.h>
-#include <linux/i2c-dev.h>
-#include <sys/ioctl.h>
-#include <sys/fcntl.h>
-#include <iostream>
-#include <stdio.h>
-#include <stropts.h>
-#include <unistd.h>
+
+int AbstractI2CDevice::GetTwosCompliment16(int data)
+{
+	if(data & (1 << 15))
+		return data | ~65535;
+	return data & 65535;
+}
 
 AbstractI2CDevice::AbstractI2CDevice(std::string namebuf, char address)
 {
@@ -26,13 +25,16 @@ AbstractI2CDevice::~AbstractI2CDevice() {
 
 char AbstractI2CDevice::Read(char reg)
 {
-	char buf[2];
+	char wrBuf[1];
+	wrBuf[0]=reg;
 
-	buf[0] =reg;
+	write(_file, wrBuf, 1);
 
-	read(_file, buf, 2);
+	char buf[1];
 
-	return buf[1];
+	read(_file, buf, 1);
+
+	return buf[0];
 }
 
 bool AbstractI2CDevice::Write(char reg, char data)

@@ -8,6 +8,14 @@
 #ifndef ABSTRACTI2CDEVICE_H_
 #define ABSTRACTI2CDEVICE_H_
 #include <string>
+#include <linux/i2c.h>
+#include <linux/i2c-dev.h>
+#include <sys/ioctl.h>
+#include <sys/fcntl.h>
+#include <iostream>
+#include <stdio.h>
+#include <stropts.h>
+#include <unistd.h>
 
 class AbstractI2CDevice {
 public:
@@ -19,6 +27,7 @@ public:
 	bool Write(void* buf, std::size_t size);
 	bool Write(char reg, char data);
 	char Read(char reg);
+	int GetTwosCompliment16(int data);
 protected:
 	std::string _namebuf;
 	char _address;

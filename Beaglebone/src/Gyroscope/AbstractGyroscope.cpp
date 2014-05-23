@@ -8,11 +8,8 @@
 #include "AbstractGyroscope.h"
 
 AbstractGyroscope::AbstractGyroscope() {
-	// TODO Auto-generated constructor stub
-
 }
 
 AbstractGyroscope::~AbstractGyroscope() {
-	// TODO Auto-generated destructor stub
 }
 

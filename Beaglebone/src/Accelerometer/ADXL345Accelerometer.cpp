@@ -26,19 +26,22 @@ ADXL345Accelerometer::ADXL345Accelerometer(std::string namebuf, char address)
 ADXL345Accelerometer::~ADXL345Accelerometer() {
 }
 
-int16_t ADXL345Accelerometer::X()
+
+//TODO There is something wrong here
+//These values should be much more uniform
+float ADXL345Accelerometer::Xg()
 {
-	return _x;
+	return (_x)*0.0078;
 }
 
-int16_t ADXL345Accelerometer::Y()
+float ADXL345Accelerometer::Yg()
 {
-	return _y;
+	return (_y)*0.0078;
 }
 
-int16_t ADXL345Accelerometer::Z()
+float ADXL345Accelerometer::Zg()
 {
-	return _z;
+	return (_z)*0.0078;
 }
 
 void ADXL345Accelerometer::ReadData()
@@ -48,13 +51,13 @@ void ADXL345Accelerometer::ReadData()
 		//WORK IN PROGRESS, NOT FUNCTIONAL
 
 		//Read X
-		_x = (Read(0x33)<<8) | Read(0x32);
+		_x = GetTwosCompliment16((Read(0x33)<<8) | Read(0x32));
 
 		//Read Y
-		_y = (Read(0x35)<<8) | Read(0x34);
+		_y = GetTwosCompliment16((Read(0x35)<<8) | Read(0x34));
 
 		//Read Z
-		_z = (Read(0x37)<<8) | Read(0x36);
+		_z = GetTwosCompliment16((Read(0x37)<<8) | Read(0x36));
 
 		EndRead();
 	}

@@ -15,9 +15,9 @@ public:
 	AbstractAccelerometer();
 	virtual ~AbstractAccelerometer();
 	virtual void ReadData()=0;
-	virtual int16_t X() = 0;
-	virtual int16_t Y() = 0;
-	virtual int16_t Z() = 0;
+	virtual float Xg() = 0;
+	virtual float Yg() = 0;
+	virtual float Zg() = 0;
 };
 
 #endif /* ABSTRACTACCELEROMETER_H_ */

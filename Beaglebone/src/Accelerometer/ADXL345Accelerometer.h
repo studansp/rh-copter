@@ -13,15 +13,18 @@
 #include "../Shared/AbstractI2CDevice.h"
 
 #define ADXL345_BUFFER 0x80
+#define ADXL345_X_BIAS -70
+#define ADXL345_Y_BIAS 33
+#define ADXL345_Z_BIAS -70
 
 class ADXL345Accelerometer : public AbstractAccelerometer, public AbstractI2CDevice {
 public:
 	ADXL345Accelerometer(std::string namebuf, char address);
 	virtual ~ADXL345Accelerometer();
 	virtual void ReadData();
-	virtual int16_t X();
-	virtual int16_t Y();
-	virtual int16_t Z();
+	virtual float Xg();
+	virtual float Yg();
+	virtual float Zg();
 
 private:
 	char buffer[ADXL345_BUFFER];

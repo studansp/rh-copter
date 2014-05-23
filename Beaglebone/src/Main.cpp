@@ -9,7 +9,7 @@
 #include<iostream>
 #include "GPS/SainSmartNEO6MGPS.h"
 #include "Accelerometer/ADXL345Accelerometer.h"
-
+#include "Gyroscope/L3G4200DGyroscope.h"
 using namespace std;
 
 int main()
@@ -24,10 +24,18 @@ int main()
 
 	cout << "Is accelerometer Valid?: " << accel.IsValid() << endl;
 
-	cout << "Accel X? " << accel.X() << endl;
-	cout << "Accel Y? " << accel.Y() << endl;
-	cout << "Accel Z? " << accel.Z() << endl;
+	cout << "Accel Xg? " << accel.Xg() << endl;
+	cout << "Accel Yg? " << accel.Yg() << endl;
+	cout << "Accel Zg? " << accel.Zg() << endl;
+
+	L3G4200DGyroscope gyro("/dev/i2c-1",0x69);
+
+	gyro.ReadData();
 
 
-	return 0;
+	cout << "Is gyroscope Valid? " << gyro.IsValid() << endl;
+
+	cout << "Gyro X? " << gyro.X_dps() << endl;
+	cout << "Gyro Y? " << gyro.Y_dps() << endl;
+	cout << "Gyro Z? " << gyro.Z_dps() << endl;
 }
