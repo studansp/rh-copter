@@ -10,10 +10,21 @@
 #include "GPS/SainSmartNEO6MGPS.h"
 #include "Accelerometer/ADXL345Accelerometer.h"
 #include "Gyroscope/L3G4200DGyroscope.h"
+#include "Motor/Turnigy2209Motor.h"
+#include "Quadcopter/AbstractQuadcopter.h"
+#include "Quadcopter/RHCopter.h"
+
 using namespace std;
 
 int main()
 {
+	AbstractQuadcopter* copter = new RHCopter();
+
+	copter->Refresh("");
+
+	delete copter;
+
+	/*
 	SainSmartNEO6MGPS gps("/dev/i2c-1",0x42);
 	gps.Refresh("");
 
@@ -38,4 +49,5 @@ int main()
 	cout << "Gyro X? " << gyro.X_dps() << endl;
 	cout << "Gyro Y? " << gyro.Y_dps() << endl;
 	cout << "Gyro Z? " << gyro.Z_dps() << endl;
+	*/
 }
